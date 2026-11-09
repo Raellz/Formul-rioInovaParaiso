@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INOVA Paraíso 2026 - Ranking do Hackathon</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body class="evaluation-page ranking-page">
+  <div class="container">
+    <header class="evaluation-header">
+      <div class="event-brand">
+        <img class="event-logo" src="Logos/Logo.png" alt="" aria-hidden="true">
+        <div class="event-heading">
+          <p class="evaluation-kicker">UFLA <span>·</span> Câmpus São Sebastião do Paraíso</p>
+          <h1>INOVA Paraíso 2026</h1>
+          <p>Ranking das propostas · Hackathon</p>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Voltar para Avaliação</a>
+      </div>
+    </header>
+
+    <div class="card">
+      <table class="ranking-table">
+        <thead>
+          <tr>
+            <th>Pos.</th>
+            <th>Startup</th>
+            <th>Avaliações</th>
+            <th>Pontuação Total</th>
+            <th>Observações</th>
+          </tr>
+        </thead>
+        <tbody id="rankingBody">
+          <tr>
+            <td colspan="5" style="text-align: center; color: var(--text-muted);">Carregando resultados...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <dialog id="observationDialog" class="observation-dialog" aria-labelledby="observationTitle">
+    <div class="observation-dialog-header">
+      <h2 id="observationTitle">Observações</h2>
+      <button type="button" class="dialog-close" id="closeObservationDialog" aria-label="Fechar">&times;</button>
+    </div>
+    <div id="observationContent" class="observation-content"></div>
+  </dialog>
+
+  <script type="module" src="ranking.js"></script>
+</body>
+</html>
