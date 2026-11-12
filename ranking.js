@@ -1,26 +1,80 @@
 import { db } from "./firebase-config.js";
 import { collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+const RANKING_LOGIN = "inova";
+const RANKING_PASSWORD = "paraiso2026";
+const RANKING_SESSION_KEY = "inovaParaisoRankingAccess";
 let allEvaluations = [];
+let rankingListenerStarted = false;
 
 const rankingBody = document.getElementById("rankingBody");
+const rankingContent = document.getElementById("rankingContent");
 const observationDialog = document.getElementById("observationDialog");
 const observationTitle = document.getElementById("observationTitle");
 const observationContent = document.getElementById("observationContent");
+const loginDialog = document.getElementById("loginDialog");
+const loginForm = document.getElementById("loginForm");
+const loginError = document.getElementById("loginError");
 
 document.getElementById("closeObservationDialog").addEventListener("click", () => {
   observationDialog.close();
 });
 
-// Listener em tempo real do Firestore
-onSnapshot(collection(db, "evaluations_paraiso"), (snapshot) => {
-  allEvaluations = [];
-  snapshot.forEach(doc => allEvaluations.push(doc.data()));
-  renderRanking();
-}, (err) => {
-  console.error("Erro ao carregar avaliações de Paraíso:", err);
-  rankingBody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Não foi possível carregar o ranking. Verifique a conexão e as permissões do Firebase.</td></tr>';
+loginDialog.addEventListener("cancel", (event) => {
+  event.preventDefault();
 });
+
+loginForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  loginError.hidden = true;
+  const username = document.getElementById("loginUsername").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  if (username !== RANKING_LOGIN || password !== RANKING_PASSWORD) {
+    loginError.textContent = "Login ou senha inválidos. Tente novamente.";
+    loginError.hidden = false;
+    return;
+  }
+
+  try {
+    sessionStorage.setItem(RANKING_SESSION_KEY, "true");
+    loginForm.reset();
+    openRanking();
+  } catch (err) {
+    console.error("Não foi possível guardar o acesso ao ranking nesta sessão:", err);
+    loginError.textContent = "Não foi possível continuar. Verifique as configurações do navegador.";
+    loginError.hidden = false;
+  }
+});
+
+function openRanking() {
+  loginDialog.close();
+  rankingContent.hidden = false;
+  if (!rankingListenerStarted) startWatchingRanking();
+}
+
+try {
+  if (sessionStorage.getItem(RANKING_SESSION_KEY) === "true") {
+    openRanking();
+  } else {
+    loginDialog.showModal();
+  }
+} catch (err) {
+  console.error("Não foi possível verificar o acesso ao ranking nesta sessão:", err);
+  loginDialog.showModal();
+}
+
+function startWatchingRanking() {
+  rankingListenerStarted = true;
+  onSnapshot(collection(db, "evaluations_paraiso"), (snapshot) => {
+    allEvaluations = [];
+    snapshot.forEach(doc => allEvaluations.push(doc.data()));
+    renderRanking();
+  }, (err) => {
+    console.error("Erro ao carregar avaliações de Paraíso:", err);
+    rankingBody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Não foi possível carregar o ranking. Verifique sua conexão e as regras de acesso do Firebase.</td></tr>';
+  });
+}
 
 function renderRanking() {
   // Soma as pontuações de cada startup

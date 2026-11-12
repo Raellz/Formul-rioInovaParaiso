@@ -22,7 +22,7 @@
       </div>
     </header>
 
-    <div class="card">
+    <div class="card" id="rankingContent" hidden>
       <table class="ranking-table">
         <thead>
           <tr>
@@ -48,6 +48,24 @@
       <button type="button" class="dialog-close" id="closeObservationDialog" aria-label="Fechar">&times;</button>
     </div>
     <div id="observationContent" class="observation-content"></div>
+  </dialog>
+
+  <dialog id="loginDialog" class="login-dialog" aria-labelledby="loginTitle">
+    <form id="loginForm" class="login-form">
+      <p class="login-kicker">Área restrita</p>
+      <h2 id="loginTitle">Acesse o ranking</h2>
+      <p class="login-description">Digite o login e a senha para visualizar os resultados.</p>
+      <div class="form-group">
+        <label for="loginUsername">Login</label>
+        <input type="text" id="loginUsername" autocomplete="username" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Senha</label>
+        <input type="password" id="loginPassword" autocomplete="current-password" required>
+      </div>
+      <p id="loginError" class="login-error" role="alert" hidden></p>
+      <button type="submit" class="btn-primary" id="loginButton">Entrar</button>
+    </form>
   </dialog>
 
   <script type="module" src="ranking.js"></script>
