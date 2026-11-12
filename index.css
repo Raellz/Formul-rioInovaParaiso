@@ -157,6 +157,23 @@ header p {
   box-shadow: 0 3px 10px rgba(48, 36, 63, 0.1);
 }
 
+.evaluation-page:not(.ranking-page) .evaluation-header .nav-links .ranking-entry-button {
+  padding: 10px 15px;
+  border: 1px solid rgba(84, 35, 165, 0.28);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--coffee-accent);
+  box-shadow: 0 3px 10px rgba(48, 36, 63, 0.1);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.evaluation-page:not(.ranking-page) .evaluation-header .nav-links .ranking-entry-button:hover {
+  background: #f3eff9;
+  border-color: var(--coffee-green-hover);
+}
+
 .evaluation-header .nav-links a:hover {
   background: rgba(84, 35, 165, 0.08);
   border-color: var(--coffee-accent);
@@ -579,9 +596,15 @@ button.btn-primary:hover {
 }
 
 .login-form h2 {
-  margin-bottom: 8px;
   color: var(--coffee-accent);
   font-size: 1.4rem;
+}
+
+.login-dialog-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .login-kicker {

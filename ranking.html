@@ -52,8 +52,13 @@
 
   <dialog id="loginDialog" class="login-dialog" aria-labelledby="loginTitle">
     <form id="loginForm" class="login-form">
-      <p class="login-kicker">Área restrita</p>
-      <h2 id="loginTitle">Acesse o ranking</h2>
+      <div class="login-dialog-header">
+        <div>
+          <p class="login-kicker">Área restrita</p>
+          <h2 id="loginTitle">Acesse o ranking</h2>
+        </div>
+        <button type="button" class="dialog-close" id="closeLoginDialog" aria-label="Fechar">&times;</button>
+      </div>
       <p class="login-description">Digite o login e a senha para visualizar os resultados.</p>
       <div class="form-group">
         <label for="loginUsername">Login</label>

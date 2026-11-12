@@ -1,9 +1,6 @@
 import { db } from "./firebase-config.js";
 import { collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const RANKING_LOGIN = "inova";
-const RANKING_PASSWORD = "paraiso2026";
-const RANKING_SESSION_KEY = "inovaParaisoRankingAccess";
+import { hasRankingAccess, isValidRankingLogin, grantRankingAccess } from "./ranking-access.js";
 let allEvaluations = [];
 let rankingListenerStarted = false;
 
@@ -20,6 +17,10 @@ document.getElementById("closeObservationDialog").addEventListener("click", () =
   observationDialog.close();
 });
 
+document.getElementById("closeLoginDialog").addEventListener("click", () => {
+  window.location.replace("index.html");
+});
+
 loginDialog.addEventListener("cancel", (event) => {
   event.preventDefault();
 });
@@ -30,14 +31,14 @@ loginForm.addEventListener("submit", (event) => {
   const username = document.getElementById("loginUsername").value.trim();
   const password = document.getElementById("loginPassword").value;
 
-  if (username !== RANKING_LOGIN || password !== RANKING_PASSWORD) {
+  if (!isValidRankingLogin(username, password)) {
     loginError.textContent = "Login ou senha inválidos. Tente novamente.";
     loginError.hidden = false;
     return;
   }
 
   try {
-    sessionStorage.setItem(RANKING_SESSION_KEY, "true");
+    grantRankingAccess();
     loginForm.reset();
     openRanking();
   } catch (err) {
@@ -54,7 +55,7 @@ function openRanking() {
 }
 
 try {
-  if (sessionStorage.getItem(RANKING_SESSION_KEY) === "true") {
+  if (hasRankingAccess()) {
     openRanking();
   } else {
     loginDialog.showModal();
